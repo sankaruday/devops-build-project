@@ -7,29 +7,18 @@ pipeline {
     }
 
     stages {
-        stage('Login to Docker Hub') {
+        stage('Login') {
             steps {
                 sh 'echo $DOCKER_HUB_CREDS_PSW | docker login -u $DOCKER_HUB_CREDS_USR --password-stdin'
             }
         }
 
-        stage('Build & Push') {
+        stage('Force Push to Prod') {
             steps {
                 script {
-                    // This line ensures we catch 'main', 'master', or 'origin/main'
-                    def branch = env.GIT_BRANCH.replace('origin/', '')
-                    echo "Current detected branch is: ${branch}"
-
-                    if (branch == 'main' || branch == 'master') {
-                        echo "Processing Production Branch... Pushing to uday2097/prod"
-                        sh "docker build -t $DOCKER_USER/prod:latest ."
-                        sh "docker push $DOCKER_USER/prod:latest"
-                    } 
-                    else if (branch == 'dev') {
-                        echo "Processing Dev Branch... Pushing to uday2097/dev"
-                        sh "docker build -t $DOCKER_USER/dev:latest ."
-                        sh "docker push $DOCKER_USER/dev:latest"
-                    }
+                    echo "FORCING PUSH TO PRODUCTION REPOSITORY..."
+                    sh "docker build -t $DOCKER_USER/prod:latest ."
+                    sh "docker push $DOCKER_USER/prod:latest"
                 }
             }
         }
@@ -44,7 +33,6 @@ pipeline {
 
     post {
         always {
-            // This is vital for your t3.small to keep space free
             cleanWs()
             sh "docker image prune -f"
         }
