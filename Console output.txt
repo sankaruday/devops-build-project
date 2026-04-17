@@ -1,0 +1,292 @@
+Started by user admin
+Connecting to https://api.github.com using sankaruday/******
+Obtained Jenkinsfile from 47a23a49d12ca96c8953b043e5e00e723a88386e
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/devops-project_dev
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+The recommended git tool is: NONE
+using credential github_creds
+ > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/devops-project_dev/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/sankaruday/devops-build-project.git # timeout=10
+Fetching without tags
+Fetching upstream changes from https://github.com/sankaruday/devops-build-project.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.43.0'
+using GIT_ASKPASS to set credentials 
+ > git fetch --no-tags --force --progress -- https://github.com/sankaruday/devops-build-project.git +refs/heads/dev:refs/remotes/origin/dev # timeout=10
+Checking out Revision 47a23a49d12ca96c8953b043e5e00e723a88386e (dev)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 47a23a49d12ca96c8953b043e5e00e723a88386e # timeout=10
+Commit message: "Add Jenkinsfile for automation"
+ > git rev-list --no-walk 47a23a49d12ca96c8953b043e5e00e723a88386e # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withCredentials
+Masking supported pattern matches of $DOCKER_HUB_CREDS or $DOCKER_HUB_CREDS_PSW
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Login to Docker Hub)
+[Pipeline] sh
+Warning: A secret was passed to "sh" using Groovy String interpolation, which is insecure.
+		 Affected argument(s) used the following variable(s): [DOCKER_HUB_CREDS_PSW]
+		 See https://jenkins.io/redirect/groovy-string-interpolation for details.
++ echo ****
++ docker login -u uday2097 --password-stdin
+Login Succeeded
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build & Push)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] echo
+Processing Dev Branch...
+[Pipeline] sh
++ ./build.sh
+Building Docker image for uday2097/dev...
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 129B done
+#1 DONE 0.0s
+
+#2 [auth] library/nginx:pull token for registry-1.docker.io
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/nginx:alpine
+#3 DONE 1.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 118B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 900B done
+#5 DONE 0.0s
+
+#6 [1/2] FROM docker.io/library/nginx:alpine@sha256:8aa63af009a39ecd6c28d61da578a5447378c10bb097a069e3a3e0fb42bb6b19
+#6 resolve docker.io/library/nginx:alpine@sha256:8aa63af009a39ecd6c28d61da578a5447378c10bb097a069e3a3e0fb42bb6b19 0.0s done
+#6 DONE 0.0s
+
+#7 [2/2] COPY . /usr/share/nginx/html
+#7 CACHED
+
+#8 exporting to image
+#8 exporting layers done
+#8 exporting manifest sha256:57998697933bafc46f12e3706884b3ccd80a269ab3293f3824a3eaed69030439 done
+#8 exporting config sha256:eae7097b355e75e2a6e97e165a171ea667ca8ea87f2f71c83aeedbd6833a3385 done
+#8 exporting attestation manifest sha256:dda856e5f35d06f732d7f12820633882ba64470252770be8027f863a365734c1
+#8 exporting attestation manifest sha256:dda856e5f35d06f732d7f12820633882ba64470252770be8027f863a365734c1 0.0s done
+#8 exporting manifest list sha256:352abe61ee054a8b35b9fd30c0e1564eb1e3c22a63da7328d6bd3a9933ee78ff 0.0s done
+#8 naming to docker.io/uday2097/dev:latest done
+#8 unpacking to docker.io/uday2097/dev:latest 0.0s done
+#8 DONE 0.1s
+[Pipeline] sh
++ docker tag uday2097/dev:latest uday2097/dev:latest
+[Pipeline] sh
++ docker push uday2097/dev:latest
+The push refers to repository [docker.io/uday2097/dev]
+453da7dbc73e: Waiting
+612c0c1df4c5: Waiting
+70e6bf32dafa: Waiting
+aee4e54b3865: Waiting
+6a0ac1617861: Waiting
+82736a35d0e7: Waiting
+3919edf5cd23: Waiting
+583599bb7d38: Waiting
+4a8b0b2a5b19: Waiting
+781ff50d2644: Waiting
+4a8b0b2a5b19: Waiting
+781ff50d2644: Waiting
+453da7dbc73e: Waiting
+612c0c1df4c5: Waiting
+70e6bf32dafa: Waiting
+aee4e54b3865: Waiting
+6a0ac1617861: Waiting
+82736a35d0e7: Waiting
+3919edf5cd23: Waiting
+583599bb7d38: Waiting
+82736a35d0e7: Waiting
+3919edf5cd23: Waiting
+583599bb7d38: Waiting
+4a8b0b2a5b19: Waiting
+781ff50d2644: Waiting
+453da7dbc73e: Waiting
+612c0c1df4c5: Waiting
+70e6bf32dafa: Waiting
+aee4e54b3865: Waiting
+6a0ac1617861: Waiting
+6a0ac1617861: Waiting
+82736a35d0e7: Waiting
+3919edf5cd23: Waiting
+583599bb7d38: Waiting
+4a8b0b2a5b19: Waiting
+781ff50d2644: Waiting
+453da7dbc73e: Waiting
+612c0c1df4c5: Waiting
+70e6bf32dafa: Waiting
+aee4e54b3865: Waiting
+aee4e54b3865: Waiting
+6a0ac1617861: Waiting
+82736a35d0e7: Waiting
+3919edf5cd23: Waiting
+583599bb7d38: Waiting
+4a8b0b2a5b19: Waiting
+781ff50d2644: Waiting
+453da7dbc73e: Waiting
+612c0c1df4c5: Waiting
+70e6bf32dafa: Waiting
+aee4e54b3865: Waiting
+6a0ac1617861: Waiting
+82736a35d0e7: Waiting
+3919edf5cd23: Waiting
+583599bb7d38: Waiting
+4a8b0b2a5b19: Waiting
+781ff50d2644: Waiting
+453da7dbc73e: Waiting
+612c0c1df4c5: Waiting
+70e6bf32dafa: Waiting
+3919edf5cd23: Waiting
+583599bb7d38: Waiting
+4a8b0b2a5b19: Waiting
+781ff50d2644: Waiting
+453da7dbc73e: Waiting
+612c0c1df4c5: Waiting
+70e6bf32dafa: Waiting
+aee4e54b3865: Waiting
+6a0ac1617861: Waiting
+82736a35d0e7: Waiting
+4a8b0b2a5b19: Waiting
+781ff50d2644: Waiting
+453da7dbc73e: Waiting
+612c0c1df4c5: Waiting
+70e6bf32dafa: Waiting
+aee4e54b3865: Waiting
+6a0ac1617861: Waiting
+82736a35d0e7: Waiting
+3919edf5cd23: Waiting
+583599bb7d38: Waiting
+3919edf5cd23: Waiting
+583599bb7d38: Waiting
+4a8b0b2a5b19: Waiting
+781ff50d2644: Waiting
+453da7dbc73e: Waiting
+612c0c1df4c5: Waiting
+70e6bf32dafa: Waiting
+aee4e54b3865: Waiting
+6a0ac1617861: Waiting
+82736a35d0e7: Waiting
+aee4e54b3865: Waiting
+6a0ac1617861: Waiting
+82736a35d0e7: Waiting
+3919edf5cd23: Waiting
+583599bb7d38: Waiting
+4a8b0b2a5b19: Waiting
+781ff50d2644: Waiting
+453da7dbc73e: Waiting
+612c0c1df4c5: Waiting
+70e6bf32dafa: Waiting
+3919edf5cd23: Waiting
+583599bb7d38: Waiting
+4a8b0b2a5b19: Waiting
+781ff50d2644: Waiting
+453da7dbc73e: Waiting
+612c0c1df4c5: Waiting
+70e6bf32dafa: Waiting
+aee4e54b3865: Waiting
+6a0ac1617861: Waiting
+82736a35d0e7: Waiting
+70e6bf32dafa: Waiting
+aee4e54b3865: Waiting
+6a0ac1617861: Waiting
+82736a35d0e7: Waiting
+3919edf5cd23: Waiting
+583599bb7d38: Waiting
+4a8b0b2a5b19: Waiting
+781ff50d2644: Layer already exists
+453da7dbc73e: Waiting
+612c0c1df4c5: Waiting
+4a8b0b2a5b19: Waiting
+453da7dbc73e: Waiting
+612c0c1df4c5: Waiting
+70e6bf32dafa: Waiting
+aee4e54b3865: Waiting
+6a0ac1617861: Waiting
+82736a35d0e7: Waiting
+3919edf5cd23: Waiting
+583599bb7d38: Waiting
+3919edf5cd23: Waiting
+583599bb7d38: Waiting
+4a8b0b2a5b19: Layer already exists
+453da7dbc73e: Waiting
+612c0c1df4c5: Waiting
+70e6bf32dafa: Waiting
+aee4e54b3865: Waiting
+6a0ac1617861: Waiting
+82736a35d0e7: Layer already exists
+6a0ac1617861: Waiting
+3919edf5cd23: Waiting
+583599bb7d38: Waiting
+453da7dbc73e: Waiting
+612c0c1df4c5: Waiting
+70e6bf32dafa: Waiting
+aee4e54b3865: Waiting
+3919edf5cd23: Waiting
+583599bb7d38: Layer already exists
+453da7dbc73e: Layer already exists
+612c0c1df4c5: Layer already exists
+70e6bf32dafa: Layer already exists
+aee4e54b3865: Layer already exists
+6a0ac1617861: Layer already exists
+3919edf5cd23: Waiting
+3919edf5cd23: Waiting
+3919edf5cd23: Pushed
+latest: digest: sha256:352abe61ee054a8b35b9fd30c0e1564eb1e3c22a63da7328d6bd3a9933ee78ff size: 856
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy)
+[Pipeline] sh
++ ./deploy.sh
+Deploying the image to the server on Port 80...
+time="2026-04-16T16:43:18Z" level=warning msg="/var/lib/jenkins/workspace/devops-project_dev/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+ Container devops-project_dev-react-app-1 Stopping 
+ Container devops-project_dev-react-app-1 Stopped 
+ Container devops-project_dev-react-app-1 Removing 
+ Container devops-project_dev-react-app-1 Removed 
+ Network devops-project_dev_default Removing 
+ Network devops-project_dev_default Removed 
+time="2026-04-16T16:43:18Z" level=warning msg="/var/lib/jenkins/workspace/devops-project_dev/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+ Network devops-project_dev_default Creating 
+ Network devops-project_dev_default Created 
+ Container devops-project_dev-react-app-1 Creating 
+ Container devops-project_dev-react-app-1 Created 
+ Container devops-project_dev-react-app-1 Starting 
+Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint devops-project_dev-react-app-1 (93a7e71b9b965620cf867bdeb64f56c4fedbb0257701b8fedccced8de50f71a2): Bind for 0.0.0.0:80 failed: port is already allocated
+Deployment complete.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+
+GitHub has been notified of this commit’s build result
+
+Finished: SUCCESS
